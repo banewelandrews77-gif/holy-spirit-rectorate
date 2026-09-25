@@ -9,7 +9,7 @@
     "client": "vite",
     "server": "tsx server/server.ts",
     "start": "node --loader tsx/esm server/server.ts",
-    "seed": "tsx server/seed.ts",
+    "seed": "tsx server/run-seed.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

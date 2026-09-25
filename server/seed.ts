@@ -1,23 +1,24 @@
 import bcrypt from 'bcryptjs';
 import { db, initDatabase } from './db';
 
-console.log('[SEED] Initializing database...');
-initDatabase();
+export function seedDatabase() {
+  console.log('[SEED] Initializing database...');
+  initDatabase();
 
-// Clear existing records to ensure fresh state
-db.exec(`
-  DELETE FROM users;
-  DELETE FROM announcements;
-  DELETE FROM events;
-  DELETE FROM bulletins;
-  DELETE FROM gallery;
-  DELETE FROM donations;
-  DELETE FROM messages;
-  DELETE FROM settings;
-`);
+  // Clear existing records to ensure fresh state
+  db.exec(`
+    DELETE FROM users;
+    DELETE FROM announcements;
+    DELETE FROM events;
+    DELETE FROM bulletins;
+    DELETE FROM gallery;
+    DELETE FROM donations;
+    DELETE FROM messages;
+    DELETE FROM settings;
+  `);
 
-// 1. Seed Users
-console.log('[SEED] Seeding users...');
+  // 1. Seed Users
+  console.log('[SEED] Seeding users...');
 const salt = bcrypt.genSaltSync(10);
 const parishPass = bcrypt.hashSync('Anthony@1801', salt);
 
@@ -464,4 +465,6 @@ insertSetting.run('about_page', JSON.stringify({
   ]
 }));
 
-console.log('[SEED] Database seeding completed successfully!');
+  console.log('[SEED] Database seeding completed successfully!');
+} // end seedDatabase()
+

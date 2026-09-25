@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
-import { initDatabase } from './db';
+import { initDatabase, db } from './db';
 import authRoutes from './routes/auth.routes';
 import donationRoutes from './routes/donation.routes';
 import contentRoutes from './routes/content.routes';
@@ -18,6 +18,20 @@ dotenv.config();
 
 // Initialize SQLite database schema
 initDatabase();
+
+// Auto-seed on startup if database is empty (supports free-tier hosting without persistent disk)
+async function autoSeedIfEmpty() {
+  const userCount = (db.prepare('SELECT COUNT(*) as count FROM users').get() as { count: number }).count;
+  if (userCount === 0) {
+    console.log('[SERVER] Empty database detected — running auto-seed...');
+    const { seedDatabase } = await import('./seed.js');
+    seedDatabase();
+    console.log('[SERVER] Auto-seed complete.');
+  } else {
+    console.log(`[SERVER] Database ready — ${userCount} user(s) found.`);
+  }
+}
+autoSeedIfEmpty().catch(err => console.error('[SERVER] Auto-seed error:', err));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
