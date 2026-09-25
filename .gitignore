@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build output
+dist/
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# SQLite DB (managed by Render disk)
+server/data/*.db
+server/data/*.db-shm
+server/data/*.db-wal
+
+# Uploads (managed by Render disk)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# OS & editor
+.DS_Store
+Thumbs.db
+*.suo
+*.user
+.vscode/
+.idea/
+
+# Scratch
+scratch/

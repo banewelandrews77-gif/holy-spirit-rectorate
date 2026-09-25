@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: holy-spirit-rectorate
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node --loader tsx/esm server/server.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+    disk:
+      name: parish-data
+      mountPath: /opt/render/project/src/server/data
+      sizeGB: 1
